@@ -1,8 +1,8 @@
 package com.desafio.tasks.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,14 +24,9 @@ public class ProjectService {
         return repository.save(mapper.toEntity(request));
     }
 
-    public List<Project> listAll() {
-        return repository.findAll();
+    public Page<Project> listAll (Pageable pageable){
+        return repository.findAll(pageable);
     }
 
-    @Transactional
-    public void delete(Long id) {
-        Project project = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Projeto não encontrado, com o id: " + id));
-        repository.delete(project);
-    }
+
 }
