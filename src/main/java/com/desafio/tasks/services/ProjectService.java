@@ -23,10 +23,15 @@ public class ProjectService {
     public Project create(ProjectDto request) {
         return repository.save(mapper.toEntity(request));
     }
-    
 
-    public List<Project> listAll (){
+    public List<Project> listAll() {
         return repository.findAll();
     }
 
+    @Transactional
+    public void delete(Long id) {
+        Project project = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Projeto não encontrado, com o id: " + id));
+        repository.delete(project);
+    }
 }
